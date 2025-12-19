@@ -1,3 +1,148 @@
+# **Lesson Plan: SQL Data Definition Language (DDL) with DuckDB**
+
+**Duration:** 3 Hours
+
+**Target Audience:** Adult learners with no prior SQL knowledge
+
+**Tools:** [DbGate](https://dbgate.org/), DuckDB
+
+## **Section 1: Fundamentals of Database Structure & Connections (1 Hour)**
+
+**Learning Objective:** By the end of this section, learners will be able to connect to a DuckDB database using DbGate and perform basic schema and table creation.
+
+* **Theory Summary/Recap (10 min):**  
+  * What is an RDBMS? Understanding the relationship between databases, schemas, and tables.  
+  * Introduction to DuckDB: Why we use an in-process engine for data science.  
+  * Introduction to DbGate: A cross-platform database manager.  
+* **Demo & Hands-on Workshop (30 min):**  
+  1. **Connecting to the Database:**  
+     * Open **DbGate**.  
+     * Create a new connection to the DuckDB file provided: db/unit-1-3.db.  
+  2. **Creating a Schema:**  
+     CREATE SCHEMA IF NOT EXISTS lesson;
+
+  3. **Creating your first Table:**  
+     CREATE TABLE lesson.users (  
+       id INTEGER,  
+       name VARCHAR,  
+       email VARCHAR  
+     );
+
+  4. **Basic Data Entry (DML basics for testing DDL):**  
+     INSERT INTO lesson.users (id, name, email)  
+     VALUES (1, 'John Doe', 'john.doe@gmail.com');
+
+* **Q\&A (10 min):** Addressing connection issues and terminology (Database vs. Schema).  
+* **Reflection (10 min):** Why is organizing data into schemas important in a production environment?
+
+## **Section 2: Building Relationships & Constraints (1 Hour)**
+
+**Learning Objective:** By the end of this section, learners will be able to translate an Entity Relationship Diagram (ERD) into SQL tables using primary keys, foreign keys, and data constraints.
+
+* **Theory Summary/Recap (10 min):**  
+  * Constraints: Primary Keys (Uniqueness), Foreign Keys (Relationships), NOT NULL, CHECK, and DEFAULT.  
+  * Understanding the School System ERD (Students, Teachers, Classes).  
+* **Demo & Hands-on Workshop (30 min):**  
+  1. **Creating Tables with Constraints:**  
+     CREATE TABLE lesson.teachers (  
+       id INTEGER PRIMARY KEY,  
+       name VARCHAR NOT NULL,  
+       age INTEGER CHECK(age \> 18 AND age \< 70),  
+       address VARCHAR,  
+       phone VARCHAR,  
+       email VARCHAR CHECK(CONTAINS(email, '@'))  
+     );
+
+     CREATE TABLE lesson.classes (  
+       id INTEGER PRIMARY KEY,  
+       name VARCHAR NOT NULL,  
+       teacher\_id INTEGER REFERENCES lesson.teachers(id)  
+     );
+
+  2. **Exercise:** Complete the CREATE TABLE statement for the students table based on the ERD provided in the self-study section.  
+* **Q\&A (10 min):** Troubleshooting foreign key errors and understanding "CHECK" logic.  
+* **Reflection (10 min):** How do constraints prevent "bad data" from entering your analysis pipeline?
+
+## **Section 3: Data Management & Performance (1 Hour)**
+
+**Learning Objective:** By the end of this section, learners will be able to improve query performance with indexes, manage database objects (Alter/Drop), and handle data imports/exports.
+
+* **Theory Summary/Recap (10 min):**  
+  * What are Indexes? (Think of a book index for speed).  
+  * Tables vs. Views (Physical storage vs. Virtual queries).  
+  * The COPY command for CSV/JSON handling.  
+* **Demo & Hands-on Workshop (30 min):**  
+  1. **Creating Indexes & Views:**  
+     CREATE INDEX students\_name\_idx ON lesson.students(name);
+
+     CREATE VIEW lesson.students\_view AS  
+     SELECT id, name, email FROM lesson.students;
+
+  2. **Modifying Structure (Alter/Drop):**  
+     ALTER TABLE lesson.classes ADD COLUMN start\_date DATE;  
+     DROP TABLE IF EXISTS lesson.users;
+
+  3. **Importing Data:**  
+     COPY lesson.students FROM 'data/students.csv' (AUTO\_DETECT TRUE);
+
+* **Q\&A (10 min):** When should you *not* use an index? Difference between dropping a table vs. deleting data.  
+* **Reflection (10 min):** How does using a View simplify the work for a Data Analyst who only needs specific columns?
+
+## **Self-Study & Advanced Parts (Optional)**
+
+### **Advanced ERD Reference**
+
+Table students {  
+  id int \[pk\]  
+  name varchar  
+  address varchar  
+  phone varchar  
+  email varchar  
+  class\_id int  
+}
+
+Table teachers {  
+  id int \[pk\]  
+  name varchar  
+  age int  
+  address varchar  
+  phone varchar  
+  email varchar  
+}
+
+Table classes {  
+  id int \[pk\]  
+  name varchar  
+  teacher\_id int  
+}
+
+Ref: students.class\_id \> classes.id  
+Ref: classes.teacher\_id \> teachers.id
+
+### **Advanced Data Exports**
+
+Exporting data to JSON or specific CSV delimiters for specialized tools:
+
+\-- Export to JSON  
+COPY (SELECT \* FROM lesson.students) TO 'students.json';
+
+\-- Export with specific delimiter  
+COPY (SELECT \* FROM lesson.students) TO 'students\_new.csv' WITH (HEADER 1, DELIMITER '|');
+
+### **Local Environment Setup**
+
+If you want to create the database file from scratch:
+
+1. Create conda environment: conda env create \-f environment.yml  
+2. Activate: conda activate ddb  
+3. Run script: python db/create\_duckdb.py
+
+
+
+
+Below are the original version
+---
+
 # Lesson
 
 ## Brief
