@@ -419,24 +419,3 @@ CREATE TABLE lesson.students (
 );
 ```
 
-
----
-
-## **Self-Study & Advanced Parts (Optional)**
-### **Local Environment Setup**
-
-If you want to create the database file from scratch:
-
-1. Create a new conda environment from `environment.yml`
-```
-  conda env create -f environment.yml
-```
-2. Activate the conda environment
-```
-  conda activate ddb
-```   
-3. Run [create_duckdb.py](./db/create_duckdb.py) to create the database file.
-```
-  python db/create_duckdb.py
-```
-
