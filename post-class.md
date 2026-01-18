@@ -48,6 +48,28 @@ id,full_name,contact_info,signup_date
 2. **Import Data:** Write the COPY command to load the CSV data into your table.  
 3. **Create a View:** Create a view called valid\_leads that filters out rows where the contact\_info does NOT contain an '@' symbol (excluding phone numbers).
 
+---
+
+## **Advanced Parts for learner with Python knowledge(Optional)**
+### **Local Environment Setup**
+
+If you want to create the database file from scratch:
+
+1. Create a new conda environment from `environment.yml`
+```
+  conda env create -f environment.yml
+```
+2. Activate the conda environment
+```
+  conda activate ddb
+```   
+3. Run [create_duckdb.py](./db/create_duckdb.py) to create the database file.
+```
+  python db/create_duckdb.py
+```
+
+---
+
 ## **🛑 STOP\! Solutions Below**
 
 *Try to solve the problems above before scrolling down.*
@@ -88,6 +110,10 @@ CREATE TABLE library.loans (
 );
 
 ```
+
+
+
+
 
 ### **Solution 2: The Marketing Dump**
 
