@@ -402,6 +402,7 @@ FROM lesson.students;
 
 
 * **Q\&A:** When should you *not* use an index? Difference between dropping a table vs. deleting data.  
+  *Ans: small tables, tables not frequently updated, tables with high update volume, read-once table*
 * **Reflection:** How does using a View simplify the work for a Data Analyst who only needs specific columns?
 
 
