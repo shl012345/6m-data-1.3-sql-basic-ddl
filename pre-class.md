@@ -83,7 +83,7 @@ Try to answer these questions mentally:
 1. If I want to add a "Phone Number" column to an existing table, which command would I use?  
    *Ans: Alter table*
 3. What is the difference between a Schema and a Table?  
-   *Ans: Schema is like a folder/diagram of groups of related data files and a table is like a file of a specific data set of fields and records.*
+   *Ans: Schema is like a folder/diagram of groups of related data files whereas a table is like a file of a specific data set of fields and records.*
 4. Why might a Data Scientist prefer DuckDB over a heavy database server?  
    *Ans: DuckDB is preferred as it can run the database system standalone on a single computer vs the complex setup of a database server.*
 
